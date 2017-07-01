@@ -1,4 +1,15 @@
-var React = require('react');
+const React = require('react');
+
+const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
+
+const LanguageItem = ({ lang, updateLanguage, selectedLanguage }) => (
+  <li
+  	style={lang === selectedLanguage ? { color: '#d0021b'}: null}
+    onClick={updateLanguage }
+ 	>
+    {lang}
+  </li>
+)
 
 class Popular extends React.Component {
 	constructor(props) {
@@ -9,28 +20,29 @@ class Popular extends React.Component {
 		this.updateLanguage = this.updateLanguage.bind(this);
 	}
 
-	updateLanguage(lang) {
+	updateLanguage(synth, event) {
+		const lang = synth.target.innerText 
 		this.setState(function() {
 			return {
-			selectedLanguage: lang
+				selectedLanguage: lang
 			}	
 		});
 	}
 
 	render() { 
-		var languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
+		
+		const { selectedLanguage } = this.state;
+
 		return(
 			<ul className='languages'>
-				{languages.map(function (lang) {
-					return (
-			              <li
-			              	style={lang === this.state.selectedLanguage ? { color: '#d0021b'}: null}
-			                onClick={this.updateLanguage.bind(null, lang)}
-			                key={lang}>
-			                  {lang}
-			              </li>
-					)
-				}, this)}
+				{languages.map(lang => (
+					<LanguageItem
+				    key={lang}
+						lang={lang}
+						updateLanguage={this.updateLanguage}
+						selectedLanguage={selectedLanguage}
+					/>
+				))}
 			</ul>
 		)
 	}
